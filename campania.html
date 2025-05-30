@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA: Campaña "Legado de Amor"</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Visualization & Content Choices:
+        - Resumen Ejecutivo: Text block (Inform). Justification: Direct presentation of summary. Method: HTML.
+        - Objetivos (200-500 registros): Large stat display (Inform). Justification: Highlight key metric. Method: HTML/CSS.
+        - Público Objetivo: Donut Chart (Compare proportions). Justification: Clear visual for audience segments. Library: Chart.js (Canvas).
+        - Proceso de Registro: HTML/CSS Flowchart (Organize process). Justification: Sequential clarity. Method: HTML/Tailwind.
+        - Funcionalidades del Servicio: Icon list/Cards (Inform). Justification: Readable feature overview. Method: HTML/Unicode/Tailwind.
+        - Canales de Promoción: Bar Chart (Compare channel impact). Justification: Effective for comparing categories. Library: Chart.js (Canvas).
+        - Fases de Implementación: HTML/CSS Timeline (Organize sequence & duration). Justification: Visual clarity for project phases. Method: HTML/Tailwind.
+        - Métricas de Éxito: Radar Chart (Compare multiple metrics). Justification: Holistic view of success indicators. Library: Chart.js (Canvas).
+        All choices adhere to NO SVG/Mermaid and support the designed application structure for optimal user comprehension. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF5; /* Very light warm cream */
+            color: #3D3D3D; /* Dark charcoal gray */
+        }
+        .header-gradient {
+            background: linear-gradient(90deg, #7E9C68, #A2BCA0); /* Muted sage green gradient */
+        }
+        .section-title {
+            color: #7E9C68; /* Muted sage green */
+        }
+        .card {
+            background-color: #FFFFFF; /* White */
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+            border: 1px solid #F0EBE0; /* Subtle border */
+        }
+        .card-alt {
+            background-color: #F7F3E9; /* Slightly darker cream */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+            max-height: 320px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 320px;
+                max-height: 350px;
+            }
+        }
+        .kpi-value {
+            font-size: 2.5rem; /* text-4xl */
+            font-weight: 700;
+            color: #7E9C68; /* Muted sage green */
+        }
+        .flowchart-step {
+            background-color: #F7F3E9; /* Slightly darker cream */
+            border: 2px solid #A2BCA0; /* Lighter muted sage green */
+            color: #3D3D3D;
+            padding: 0.75rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .flowchart-step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        .flowchart-arrow {
+            font-size: 1.8rem; /* text-3xl */
+            color: #A2BCA0; /* Lighter muted sage green */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem; /* pl-10 */
+            padding-bottom: 2rem; /* pb-8 */
+            border-left: 3px solid #A2BCA0; /* Lighter muted sage green */
+        }
+        .timeline-item:last-child {
+            border-left: 3px solid transparent; /* No line for the last item's tail */
+            padding-bottom: 0.5rem;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.6rem; /* Adjust to center on the line */
+            top: 0.125rem; /* Adjust for vertical alignment */
+            width: 1rem; /* w-4 */
+            height: 1rem; /* h-4 */
+            border-radius: 9999px; /* rounded-full */
+            background-color: #7E9C68; /* Muted sage green */
+            border: 2px solid #FDFBF5;
+        }
+        .icon-list-item-icon {
+            color: #7E9C68; /* Muted sage green */
+            font-size: 1.5rem; /* text-2xl */
+            margin-right: 0.75rem; /* mr-3 */
+            flex-shrink: 0;
+        }
+        .nav-button {
+            background-color: #7E9C68;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+        }
+        .nav-button:hover {
+            background-color: #6A8558;
+        }
+        .subtle-accent-text { color: #B8A584; } /* Soft earthy beige/taupe */
+    </style>
+</head>
+<body>
+
+    <header class="header-gradient py-10 md:py-16 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3">Legado de Amor: Tu Recuerdo Vive Online</h1>
+            <p class="text-lg md:text-xl opacity-90">"Honra su memoria, comparte su legado este Día del Padre."</p>
+        </div>
+    </header>
+
+    <nav class="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-50 hidden md:block">
+        <div class="container mx-auto px-6 py-3">
+            <ul class="flex justify-center space-x-6">
+                <li><a href="#vision" class="text-gray-700 hover:text-[#7E9C68] font-medium">Visión</a></li>
+                <li><a href="#servicio" class="text-gray-700 hover:text-[#7E9C68] font-medium">El Servicio</a></li>
+                <li><a href="#estrategia" class="text-gray-700 hover:text-[#7E9C68] font-medium">Estrategia</a></li>
+                <li><a href="#fundamentos" class="text-gray-700 hover:text-[#7E9C68] font-medium">Fundamentos</a></li>
+                <li><a href="#exito" class="text-gray-700 hover:text-[#7E9C68] font-medium">Éxito</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-10 md:py-12">
+
+        <section id="vision" class="mb-12 md:mb-16 scroll-mt-20">
+            <div class="text-center mb-8 md:mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold section-title">Corazón de la Campaña</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">Esta sección explora los objetivos fundamentales de la campaña "Legado de Amor" y a quiénes busca llegar, sentando las bases de esta conmovedora iniciativa.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="card flex flex-col items-center text-center">
+                    <h3 class="text-xl font-semibold section-title mb-3">Objetivo Central</h3>
+                    <p class="text-slate-600 mb-4">Lanzar exitosamente el Libro de Visitas Virtual, fomentando su uso para crear un legado digital perdurable.</p>
+                    <div class="kpi-value">200-500</div>
+                    <p class="subtle-accent-text font-semibold mt-1">Homenajes Virtuales Esperados</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold section-title mb-4 text-center">Público Conectado</h3>
+                     <p class="text-slate-600 mb-5 text-center text-sm">La campaña se dirige tanto a quienes visitan físicamente como a aquellos que desean participar virtualmente, ampliando el círculo de recuerdo.</p>
+                    <div class="chart-container">
+                        <canvas id="publicoObjetivoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-8 card-alt">
+                <h3 class="text-xl font-semibold section-title mb-3 text-center">Resumen Ejecutivo de la Iniciativa</h3>
+                <p class="text-slate-600 leading-relaxed text-center max-w-3xl mx-auto">La campaña "Legado de Amor" busca introducir el servicio de "Libro de Visitas Virtual" durante el Día del Padre. Esta innovadora propuesta ofrece a los titulares de espacios en el cementerio una forma moderna y emotiva de honrar la memoria de sus seres queridos. Permite que familiares y amigos participen dejando mensajes y flores virtuales, fortaleciendo los lazos afectivos y creando un legado digital que trasciende el tiempo y la distancia.</p>
+            </div>
+        </section>
+
+        <section id="servicio" class="mb-12 md:mb-16 scroll-mt-20">
+            <div class="text-center mb-8 md:mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold section-title">El Servicio Detallado</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">Aquí desglosamos el innovador "Libro de Visitas Virtual": cómo los usuarios pueden registrar un homenaje y las emotivas funcionalidades que ofrece para recordar a sus seres queridos.</p>
+            </div>
+            <div class="card mb-8">
+                <h3 class="text-xl font-semibold section-title mb-6 text-center">Proceso de Registro: Un Homenaje en Cuatro Pasos</h3>
+                <p class="text-slate-600 mb-6 text-center text-sm">El acceso se facilita mediante códigos QR en el cementerio o enlaces directos, guiando al usuario a través de un registro sencillo.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-stretch">
+                    <div class="flowchart-step flex flex-col justify-center"><strong>1. Acceso al Portal</strong><p class="text-xs mt-1 text-slate-500">QR o Enlace Directo</p></div>
+                    <div class="flowchart-step flex flex-col justify-center"><strong>2. Registro de Usuario</strong><p class="text-xs mt-1 text-slate-500">Datos básicos del creador</p></div>
+                    <div class="flowchart-step flex flex-col justify-center"><strong>3. Registro del Ser Querido</strong><p class="text-xs mt-1 text-slate-500">Info, fotos, ubicación</p></div>
+                    <div class="flowchart-step flex flex-col justify-center"><strong>4. Publicar y Compartir</strong><p class="text-xs mt-1 text-slate-500">Generar enlace único</p></div>
+                </div>
+            </div>
+             <div class="card card-alt">
+                <h3 class="text-xl font-semibold section-title mb-6 text-center">Funcionalidades Emotivas del Libro de Visitas</h3>
+                <p class="text-slate-600 mb-6 text-center text-sm">Cada homenaje virtual se convierte en un espacio interactivo y personal para el recuerdo.</p>
+                <ul class="space-y-4">
+                    <li class="flex items-start"><span class="icon-list-item-icon">🖼️</span><div><strong class="text-slate-700">Memorial Visual:</strong> Visualización de información, nombre, fechas y fotos del ser querido.</div></li>
+                    <li class="flex items-start"><span class="icon-list-item-icon">💬</span><div><strong class="text-slate-700">Mensajes del Corazón:</strong> Sección para que familiares y amigos dejen condolencias, anécdotas y recuerdos.</div></li>
+                    <li class="flex items-start"><span class="icon-list-item-icon">🌸</span><div><strong class="text-slate-700">Flores Virtuales:</strong> Opción de enviar 2-3 diseños de flores simbólicas como gesto de cariño.</div></li>
+                    <li class="flex items-start"><span class="icon-list-item-icon">🔗</span><div><strong class="text-slate-700">Fácil de Compartir:</strong> Enlace web único para difundir el homenaje y permitir la participación extendida.</div></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="estrategia" class="mb-12 md:mb-16 scroll-mt-20">
+            <div class="text-center mb-8 md:mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold section-title">Estrategia de Despliegue</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">Esta sección detalla cómo se dará a conocer la campaña, los canales de promoción que se utilizarán y el cronograma de implementación para asegurar un lanzamiento exitoso.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                <div class="card">
+                    <h3 class="text-xl font-semibold section-title mb-4 text-center">Canales de Promoción Clave</h3>
+                    <p class="text-slate-600 mb-5 text-center text-sm">Se empleará una mezcla de estrategias on-site y digitales para maximizar el alcance y la participación.</p>
+                    <div class="chart-container">
+                        <canvas id="canalesPromocionChart"></canvas>
+                    </div>
+                </div>
+                <div class="card card-alt">
+                    <h3 class="text-xl font-semibold section-title mb-6 text-center">Fases de Implementación de la Campaña</h3>
+                     <p class="text-slate-600 mb-5 text-center text-sm">Un plan estructurado guía la campaña desde su concepción hasta la evaluación post-lanzamiento.</p>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-semibold text-slate-700">Fase 1: Desarrollo y Pruebas</h4>
+                            <p class="text-slate-500 text-sm">(4-6 semanas antes) Creación del portal y funcionalidades.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-semibold text-slate-700">Fase 2: Materiales y Capacitación</h4>
+                            <p class="text-slate-500 text-sm">(2-3 semanas antes) Diseño de QR, volantes. Formación del personal.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-semibold text-slate-700">Fase 3: Pre-Lanzamiento</h4>
+                            <p class="text-slate-500 text-sm">(1-2 semanas antes) Inicio de comunicación digital.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-semibold text-slate-700">Fase 4: Lanzamiento Principal</h4>
+                            <p class="text-slate-500 text-sm">(Fin de semana Día del Padre) Despliegue y monitoreo.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4 class="font-semibold text-slate-700">Fase 5: Post-Lanzamiento y Evaluación</h4>
+                            <p class="text-slate-500 text-sm">(1 semana después) Recopilación de datos y análisis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fundamentos" class="mb-12 md:mb-16 scroll-mt-20">
+            <div class="text-center mb-8 md:mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold section-title">Fundamentos Clave</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">Se abordan los aspectos tecnológicos esenciales para el portal web y las consideraciones cruciales para el éxito y la buena recepción del servicio.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="card">
+                    <h3 class="text-xl font-semibold section-title mb-4">Plataforma Tecnológica</h3>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">📱</span><strong>Diseño Mobile-First:</strong> Priorizando la experiencia en dispositivos móviles, intuitiva y fácil de usar.</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">⚡</span><strong>Optimización de Carga:</strong> Para un acceso rápido y eficiente al portal.</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">🛡️</span><strong>Base de Datos Segura:</strong> Escalable y cumpliendo normativas de protección de datos.</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">📍</span><strong>GPS y Ubicación:</strong> Entrada manual o selección en mapa simplificado (si es viable).</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">🔗</span><strong>Códigos QR Dinámicos:</strong> Para fácil acceso y potencial rastreo de uso.</li>
+                    </ul>
+                </div>
+                 <div class="card card-alt">
+                    <h3 class="text-xl font-semibold section-title mb-4">Consideraciones Adicionales</h3>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">📶</span><strong>Conectividad:</strong> Evaluar señal de internet en el cementerio y planificar en consecuencia.</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">⚖️</span><strong>Moderación de Contenido:</strong> Definir política para mensajes (opción de reportar).</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">🔒</span><strong>Privacidad de Datos:</strong> Transparencia total con políticas claras y accesibles.</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2"> 지속</span><strong>Sostenibilidad del Servicio:</strong> Planificar futuro del servicio post-campaña (costo, gratuidad).</li>
+                        <li class="flex items-start"><span class="icon-list-item-icon text-base mr-2">📷</span><strong>Fotografías:</strong> Establecer límites de tamaño/formato para optimización.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="exito" class="mb-12 md:mb-16 scroll-mt-20">
+            <div class="text-center mb-8 md:mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold section-title">Midiendo el Impacto</h2>
+                <p class="text-slate-600 mt-3 max-w-2xl mx-auto">Para evaluar la efectividad de la campaña, se seguirán diversas métricas clave que reflejarán la adopción del servicio y la interacción de los usuarios.</p>
+            </div>
+            <div class="card">
+                <h3 class="text-xl font-semibold section-title mb-4 text-center">Métricas Clave para el Éxito</h3>
+                <p class="text-slate-600 mb-5 text-center text-sm">Estos indicadores ayudarán a cuantificar el alcance y la resonancia de la iniciativa "Legado de Amor".</p>
+                <div class="chart-container">
+                    <canvas id="metricasExitoChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-8 text-center border-t border-[#F0EBE0]">
+        <p class="text-sm subtle-accent-text">&copy; <span id="currentYear"></span> Campaña "Legado de Amor". Uniendo recuerdos.</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Helper function to wrap labels if they are too long
+        function wrapLabel(label, maxWidth = 16) {
+            if (typeof label !== 'string' || label.length <= maxWidth) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxWidth && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine.length > 0) {
+                lines.push(currentLine.trim());
+            }
+            return lines.length > 0 ? lines : [label]; // Return original if somehow lines is empty
+        }
+        
+        const chartTooltipConfig = {
+            backgroundColor: 'rgba(61, 61, 61, 0.85)', // Dark charcoal gray, slightly transparent
+            titleColor: '#FDFBF5', // Very light warm cream
+            bodyColor: '#FDFBF5',
+            borderColor: '#7E9C68', // Muted sage green
+            borderWidth: 1,
+            padding: 10,
+            cornerRadius: 4,
+            displayColors: true,
+            callbacks: {
+                title: function(tooltipItems) {
+                    // For multi-line labels, join them back for the tooltip title
+                    let title = tooltipItems[0].label;
+                    if (Array.isArray(title)) {
+                        return title.join(' ');
+                    }
+                    return title;
+                }
+            }
+        };
+
+        const chartLegendConfig = {
+            labels: {
+                color: '#3D3D3D', // Dark charcoal gray
+                font: { size: 12, family: 'Inter' },
+                boxWidth: 15,
+                padding: 15
+            }
+        };
+
+        // Chart 1: Público Objetivo
+        const publicoCtx = document.getElementById('publicoObjetivoChart').getContext('2d');
+        new Chart(publicoCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [wrapLabel('Familiares Visitantes'), wrapLabel('Participantes Remotos')],
+                datasets: [{
+                    label: 'Distribución Público',
+                    data: [65, 35], // Example data
+                    backgroundColor: ['#7E9C68', '#A2BCA0'], // Muted sage green, Lighter muted sage green
+                    borderColor: '#FDFBF5', // Very light warm cream
+                    borderWidth: 3,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1500 },
+                plugins: {
+                    legend: chartLegendConfig,
+                    tooltip: chartTooltipConfig
+                },
+                cutout: '65%'
+            }
+        });
+
+        // Chart 2: Canales de Promoción
+        const canalesCtx = document.getElementById('canalesPromocionChart').getContext('2d');
+        new Chart(canalesCtx, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('QR en Cementerio'), wrapLabel('Personal de Apoyo'), wrapLabel('Redes Sociales'), wrapLabel('Email Marketing'), wrapLabel('Web Cementerio')],
+                datasets: [{
+                    label: 'Impacto Estimado del Canal',
+                    data: [90, 80, 75, 60, 65], // Example data
+                    backgroundColor: '#7E9C68', // Muted sage green
+                    borderColor: '#6A8558', // Darker sage for border
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    barThickness: 'flex',
+                    maxBarThickness: 30
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1500 },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: chartTooltipConfig
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { display: false },
+                        ticks: { color: '#B8A584' } // Soft earthy beige/taupe
+                    },
+                    y: {
+                        grid: { color: '#F0EBE0' }, // Subtle grid line
+                        ticks: { color: '#3D3D3D' } // Dark charcoal gray
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Métricas de Éxito
+        const metricasCtx = document.getElementById('metricasExitoChart').getContext('2d');
+        new Chart(metricasCtx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    wrapLabel('Usuarios Registrados'), 
+                    wrapLabel('Homenajes Creados'), 
+                    wrapLabel('Mensajes/Homenaje'), 
+                    wrapLabel('Flores Enviadas'), 
+                    wrapLabel('Enlaces Compartidos'),
+                    wrapLabel('Tráfico Web')
+                ],
+                datasets: [{
+                    label: 'Objetivo de Campaña',
+                    data: [250, 200, 5, 300, 150, 1000], // Example target data
+                    backgroundColor: 'rgba(126, 156, 104, 0.3)', // Muted sage green transparent
+                    borderColor: '#7E9C68', // Muted sage green
+                    borderWidth: 2,
+                    pointBackgroundColor: '#7E9C68',
+                    pointBorderColor: '#FDFBF5',
+                    pointHoverBackgroundColor: '#FDFBF5',
+                    pointHoverBorderColor: '#7E9C68',
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1500 },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: chartTooltipConfig
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#E0DACE' }, // Lighter beige
+                        grid: { color: '#E0DACE' },
+                        pointLabels: { 
+                            font: { size: 10, family: 'Inter' }, 
+                            color: '#3D3D3D' // Dark charcoal gray
+                        },
+                        ticks: {
+                            backdropColor: 'rgba(253, 251, 245, 0.6)', // Transparent cream
+                            color: '#B8A584', // Soft earthy beige/taupe
+                            font: { weight: '600', size: 9 },
+                            stepSize: 250 // Adjust based on data range
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
