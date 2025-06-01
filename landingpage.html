@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legado de Amor: Tu Recuerdo Vive Online</title>
+    <!-- Visualization & Content Choices: 
+        - Service/Benefits/Process: Inform/Organize -> Styled HTML/CSS cards, lists, and flow diagrams using Tailwind. Unicode characters are used for icons. This method is effective for presenting qualitative, marketing-focused information clearly without needing charts. No SVG/Mermaid.
+        - Gallery/Mockups: Inform -> Placeholders for images within a grid layout to visually suggest the final product's look and feel. This helps users visualize the service. Method: HTML/Placehold.co. No SVG/Mermaid.
+        - FAQ Section: Organize/Interact -> An interactive accordion built with vanilla JS. This organizes a large amount of text cleanly, improving user experience by showing only relevant information on demand. No SVG/Mermaid.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF5;
+            color: #3D3D3D;
+        }
+        .header-gradient {
+            background: linear-gradient(135deg, rgba(162, 188, 160, 0.8), rgba(126, 156, 104, 0.8)), url('https://placehold.co/1920x1080/e2e8f0/e2e8f0?text=') no-repeat center center;
+            background-size: cover;
+        }
+        .section-title { color: #7E9C68; }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button {
+            background-color: #7E9C68;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(126, 156, 104, 0.4);
+        }
+        .cta-button:hover {
+            background-color: #6A8558;
+            transform: scale(1.05);
+        }
+        .icon-style {
+            font-size: 2.5rem;
+            color: #7E9C68;
+            margin-bottom: 1rem;
+        }
+        .faq-question { cursor: pointer; }
+        .faq-answer {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .faq-answer.open {
+            max-height: 500px; /* Adjust as needed */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #7E9C68;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #7E9C68;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="inicio" class="header-gradient text-white">
+        <div class="container mx-auto px-6 py-20 md:py-32 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Honra a Papá Como Nunca Antes: Crea su Legado de Amor Virtual.</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">Un espacio digital lleno de cariño para compartir historias, mensajes y el amor que une a tu familia. Fácil, significativo y para siempre.</p>
+            <a href="#registro" class="cta-button">Crear un Homenaje Ahora</a>
+        </div>
+    </header>
+
+    <nav class="sticky top-0 bg-white/90 backdrop-blur-md shadow-md z-50 hidden md:block">
+        <div class="container mx-auto px-6 py-4">
+            <ul class="flex justify-center space-x-8">
+                <li><a href="#servicio" class="nav-link font-medium text-gray-600">El Servicio</a></li>
+                <li><a href="#beneficios" class="nav-link font-medium text-gray-600">Beneficios</a></li>
+                <li><a href="#como-funciona" class="nav-link font-medium text-gray-600">Cómo Funciona</a></li>
+                <li><a href="#galeria" class="nav-link font-medium text-gray-600">Ejemplos</a></li>
+                <li><a href="#faq" class="nav-link font-medium text-gray-600">Preguntas</a></li>
+                <li><a href="#registro" class="nav-link font-medium text-gray-600">Registrarse</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+        
+        <section id="servicio" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold section-title mb-4">¿Qué es el Libro de Visitas Virtual 'Legado de Amor'?</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Imagina un lugar especial en internet, dedicado enteramente a la memoria de ese ser querido que tanto extrañas. El Libro de Visitas Virtual 'Legado de Amor' es mucho más que una simple página web; es un santuario digital interactivo donde tú, tu familia y amigos pueden reunirse desde cualquier rincón del mundo para celebrar su vida, compartir anécdotas inolvidables, fotografías que atesoran momentos únicos, y expresar el cariño que los une. Es una forma moderna, accesible y profundamente significativa de mantener viva su esencia y su historia para las generaciones venideras.
+                    </p>
+                </div>
+                <div class="flex justify-center">
+                    <img src="https://placehold.co/500x400/F7F3E9/3D3D3D?text=Mockup+del+Libro+de+Visitas" alt="Mockup del Libro de Visitas Virtual en una tableta y un móvil" class="rounded-lg shadow-xl">
+                </div>
+            </div>
+        </section>
+
+        <section id="beneficios" class="mb-16 md:mb-24 scroll-mt-20 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold section-title mb-4">Uniendo Corazones, Preservando Historias</h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto mb-12">Descubre los beneficios que hacen de este servicio un homenaje verdaderamente especial.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card">
+                    <div class="icon-style">🌍</div>
+                    <h3 class="text-xl font-bold mb-2">Conexión Sin Fronteras</h3>
+                    <p class="text-gray-600">Reúne a tus seres queridos, sin importar dónde se encuentren, para compartir un homenaje colectivo.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-style">📖</div>
+                    <h3 class="text-xl font-bold mb-2">Legado Digital Duradero</h3>
+                    <p class="text-gray-600">Conserva para siempre las historias y fotos, creando una herencia para futuras generaciones.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-style">✨</div>
+                    <h3 class="text-xl font-bold mb-2">Fácil de Crear, Mágico al Compartir</h3>
+                    <p class="text-gray-600">Nuestra plataforma intuitiva te permite crear el homenaje en minutos y compartirlo con un solo clic.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-style">💖</div>
+                    <h3 class="text-xl font-bold mb-2">Consuelo y Apoyo Comunitario</h3>
+                    <p class="text-gray-600">Encuentra y ofrece consuelo en un espacio seguro y privado, donde el afecto y los recuerdos se entrelazan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="como-funciona" class="mb-16 md:mb-24 scroll-mt-20 bg-[#F7F3E9] py-16 rounded-xl">
+            <div class="text-center">
+                 <h2 class="text-3xl md:text-4xl font-bold section-title mb-4">Tu Homenaje en Simples Pasos</h2>
+                 <p class="text-lg text-gray-500 max-w-2xl mx-auto mb-12">Crear un legado digital es un proceso sencillo e intuitivo.</p>
+            </div>
+            <div class="relative">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-300 -translate-y-1/2"></div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 text-center relative">
+                     <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl font-bold section-title shadow-lg mb-4">1</div>
+                        <h3 class="font-bold mb-2">Regístrate</h3>
+                        <p class="text-sm text-gray-600">Completa nuestro sencillo formulario online.</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl font-bold section-title shadow-lg mb-4">2</div>
+                        <h3 class="font-bold mb-2">Crea el Homenaje</h3>
+                        <p class="text-sm text-gray-600">Ingresa la información y sube sus fotos.</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl font-bold section-title shadow-lg mb-4">3</div>
+                        <h3 class="font-bold mb-2">Recibe tu Enlace</h3>
+                        <p class="text-sm text-gray-600">Obtén un enlace privado y exclusivo al instante.</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl font-bold section-title shadow-lg mb-4">4</div>
+                        <h3 class="font-bold mb-2">Comparte el Amor</h3>
+                        <p class="text-sm text-gray-600">Envía el enlace a familiares y amigos.</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl font-bold section-title shadow-lg mb-4">5</div>
+                        <h3 class="font-bold mb-2">Observa Florecer</h3>
+                        <p class="text-sm text-gray-600">El libro se llena de mensajes y cariño.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="galeria" class="mb-16 md:mb-24 scroll-mt-20 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold section-title mb-4">Así de Hermoso Lucirá su Legado Digital</h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto mb-12">Visualiza la belleza y elegancia de un homenaje completado.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                 <div class="card p-2">
+                     <img src="https://placehold.co/600x400/F7F3E9/3D3D3D?text=Página+de+Bienvenida" alt="Mockup de página de bienvenida" class="rounded-md w-full">
+                     <p class="mt-2 font-semibold text-sm">Página Principal</p>
+                 </div>
+                 <div class="card p-2">
+                     <img src="https://placehold.co/600x400/FFFFFF/3D3D3D?text=Galería+de+Fotos" alt="Mockup de galería de fotos" class="rounded-md w-full">
+                     <p class="mt-2 font-semibold text-sm">Galería de Recuerdos</p>
+                </div>
+                 <div class="card p-2">
+                     <img src="https://placehold.co/600x400/F7F3E9/3D3D3D?text=Sección+de+Mensajes" alt="Mockup de sección de mensajes" class="rounded-md w-full">
+                     <p class="mt-2 font-semibold text-sm">Muro de Afecto</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="mb-16 md:mb-24 scroll-mt-20 max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold section-title mb-10 text-center">Preguntas Frecuentes</h2>
+            <div class="space-y-4" id="faq-container">
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center">
+                        <h4 class="font-semibold text-lg">¿Este servicio tiene algún costo?</h4>
+                        <span class="faq-toggle text-2xl text-gray-400 transform transition-transform">+</span>
+                    </div>
+                    <div class="faq-answer text-gray-600">
+                        Para el lanzamiento durante la campaña del Día del Padre, ofrecemos un paquete de creación especial. Por favor, completa el formulario de registro para que un asesor te brinde todos los detalles sin compromiso.
+                    </div>
+                </div>
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center">
+                        <h4 class="font-semibold text-lg">¿Qué tan seguro y privado es el Libro de Visitas?</h4>
+                        <span class="faq-toggle text-2xl text-gray-400 transform transition-transform">+</span>
+                    </div>
+                    <div class="faq-answer text-gray-600">
+                        La seguridad y privacidad son nuestra máxima prioridad. Cada Libro de Visitas se crea con un enlace único y privado. Solo las personas con las que compartas el enlace podrán acceder y ver el contenido.
+                    </div>
+                </div>
+                 <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center">
+                        <h4 class="font-semibold text-lg">¿Puedo editar la información después de crear el homenaje?</h4>
+                        <span class="faq-toggle text-2xl text-gray-400 transform transition-transform">+</span>
+                    </div>
+                    <div class="faq-answer text-gray-600">
+                        Sí. Como creador del homenaje, tendrás acceso a un panel de control simple para editar la información, agregar o quitar fotos y administrar el contenido en cualquier momento.
+                    </div>
+                </div>
+                 <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center">
+                        <h4 class="font-semibold text-lg">¿Mis familiares necesitan registrarse para dejar un mensaje?</h4>
+                        <span class="faq-toggle text-2xl text-gray-400 transform transition-transform">+</span>
+                    </div>
+                    <div class="faq-answer text-gray-600">
+                        No, hemos simplificado el proceso al máximo. Tus familiares y amigos solo necesitan su nombre para dejar un mensaje. No se requiere ningún registro de su parte, haciendo que la participación sea fácil y rápida para todos.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="registro" class="scroll-mt-20 bg-[#F7F3E9] py-16 rounded-xl">
+            <div class="max-w-2xl mx-auto text-center px-6">
+                <h2 class="text-3xl md:text-4xl font-bold section-title mb-4">¿Listo para Crear un Recuerdo Inolvidable?</h2>
+                <p class="text-lg text-gray-500 mb-8">El proceso es simple y el resultado es un tesoro de amor. Completa el formulario y un asesor se comunicará contigo para guiarte.</p>
+                <form action="#" method="POST" class="space-y-4 text-left">
+                    <div>
+                        <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres y Apellidos Completos</label>
+                        <input type="text" name="nombres" id="nombres" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#A2BCA0] focus:border-[#A2BCA0]">
+                    </div>
+                     <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                        <input type="email" name="email" id="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#A2BCA0] focus:border-[#A2BCA0]">
+                    </div>
+                    <div>
+                        <label for="celular" class="block text-sm font-medium text-gray-700">Número de Celular</label>
+                        <input type="tel" name="celular" id="celular" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#A2BCA0] focus:border-[#A2BCA0]">
+                    </div>
+                    <div class="pt-4 text-center">
+                         <button type="submit" class="cta-button w-full md:w-auto">Sí, Quiero Crear un Libro de Visitas</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-gray-200 mt-16 md:mt-24">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+             <p class="font-bold text-lg text-gray-700 mb-2">Legado de Amor</p>
+             <p class="text-sm">Una iniciativa de [Nombre del Cementerio] para mantener vivos los recuerdos.</p>
+             <div class="flex justify-center space-x-6 my-4">
+                 <a href="#" class="hover:text-[#7E9C68]">Política de Privacidad</a>
+                 <a href="#" class="hover:text-[#7E9C68]">Términos de Servicio</a>
+                 <a href="#" class="hover:text-[#7E9C68]">Contacto</a>
+             </div>
+             <p class="text-xs">&copy; <span id="currentYear"></span> Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // FAQ Accordion Logic
+        const faqContainer = document.getElementById('faq-container');
+        if (faqContainer) {
+            faqContainer.addEventListener('click', function(e) {
+                const question = e.target.closest('.faq-question');
+                if (!question) return;
+
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const toggle = item.querySelector('.faq-toggle');
+
+                if (answer.classList.contains('open')) {
+                    answer.classList.remove('open');
+                    toggle.classList.remove('rotate-45');
+                    toggle.textContent = '+';
+                } else {
+                    // Close other open answers
+                    const openItems = faqContainer.querySelectorAll('.faq-item .open');
+                    openItems.forEach(openAnswer => {
+                        openAnswer.classList.remove('open');
+                        const openToggle = openAnswer.previousElementSibling.querySelector('.faq-toggle');
+                        openToggle.classList.remove('rotate-45');
+                        openToggle.textContent = '+';
+                    });
+                    
+                    // Open the clicked answer
+                    answer.classList.add('open');
+                    toggle.classList.add('rotate-45');
+                    toggle.textContent = '−';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
